@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Multiverso</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Bangers&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --neon-purple:#b537f2;
+    --neon-green:#39ff14;
+    --neon-pink:#ff2fd3;
+    --neon-blue:#00f0ff;
+  }
+  body{background:#000; font-family:'Share Tech Mono', monospace; overflow-x:hidden;}
+  .font-graffiti{font-family:'Permanent Marker', cursive;}
+  .font-bangers{font-family:'Bangers', cursive;}
+  .font-mono2{font-family:'VT323', monospace;}
+
+  /* Matrix rain */
+  #matrix-bg{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.22;}
+  #matrix-bg canvas{width:100%; height:100%; display:block;}
+
+  /* Flicker neon */
+  @keyframes flicker{
+    0%,19%,21%,23%,25%,54%,56%,100%{opacity:1;}
+    20%,22%,24%,55%{opacity:0.4;}
+  }
+  .neon-flicker{animation:flicker 4s infinite;}
+
+  .border-glow-purple{box-shadow:0 0 8px var(--neon-purple),0 0 20px rgba(181,55,242,0.5), inset 0 0 8px rgba(181,55,242,0.3);}
+  .border-glow-green{box-shadow:0 0 8px var(--neon-green),0 0 20px rgba(57,255,20,0.5), inset 0 0 8px rgba(57,255,20,0.3);}
+  .border-glow-pink{box-shadow:0 0 8px var(--neon-pink),0 0 20px rgba(255,47,211,0.5), inset 0 0 8px rgba(255,47,211,0.3);}
+  .border-glow-blue{box-shadow:0 0 8px var(--neon-blue),0 0 20px rgba(0,240,255,0.5), inset 0 0 8px rgba(0,240,255,0.3);}
+
+  .text-glow-green{text-shadow:0 0 6px var(--neon-green),0 0 16px var(--neon-green);}
+  .text-glow-purple{text-shadow:0 0 6px var(--neon-purple),0 0 16px var(--neon-purple);}
+  .text-glow-pink{text-shadow:0 0 6px var(--neon-pink),0 0 16px var(--neon-pink);}
+  .text-glow-blue{text-shadow:0 0 6px var(--neon-blue),0 0 16px var(--neon-blue);}
+
+  /* Portal */
+  #portal{
+    background: conic-gradient(from 0deg, var(--neon-green), var(--neon-blue), var(--neon-purple), var(--neon-pink), var(--neon-green));
+    animation: spin 8s linear infinite;
+    box-shadow: 0 0 60px var(--neon-purple), 0 0 120px rgba(255,47,211,0.4), 0 0 180px rgba(57,255,20,0.3);
+    border-radius:50%;
+  }
+  #portal-inner{
+    background: radial-gradient(circle at center, #000 0%, #0a001a 40%, transparent 70%);
+    border-radius:50%;
+  }
+  @keyframes spin{ to { transform: rotate(360deg); } }
+  @keyframes spin-rev{ to { transform: rotate(-360deg); } }
+
+  /* Drip effect */
+  .drip{position:relative;}
+  .drip::after{
+    content:'';
+    position:absolute;
+    left:0; right:0; bottom:-22px;
+    height:22px;
+    background:
+      radial-gradient(circle at 10% 0, var(--neon-green) 0 6px, transparent 7px) 0 0/40px 22px repeat-x,
+      radial-gradient(circle at 60% 0, var(--neon-pink) 0 8px, transparent 9px) 10px 0/60px 22px repeat-x,
+      radial-gradient(circle at 30% 0, var(--neon-purple) 0 5px, transparent 6px) 25px 0/50px 22px repeat-x;
+    filter: blur(0.5px);
+    opacity:0.85;
+  }
+
+  .scanlines{
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 2px, transparent 4px);
+  }
+
+  .card-sticker:hover{ transform: rotate(-1deg) scale(1.03); }
+
+  /* Sticker Bomb Styles */
+  .sticker-bomb { position: relative; }
+  .sticker {
+    position: absolute;
+    background: #fff;
+    padding: 0.5rem;
+    border: 4px solid #000;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.8);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: crosshair;
+  }
+  .sticker:hover {
+    z-index: 100 !important;
+    transform: scale(1.15) rotate(0deg) !important;
+    box-shadow: 12px 12px 0 var(--neon-pink);
+  }
+
+  /* Marquee */
+  .marquee-track{
+    display:flex;
+    width:max-content;
+    animation: marquee 22s linear infinite;
+  }
+  @keyframes marquee{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+  .blink-cursor{animation: blinkc 1s step-end infinite;}
+  @keyframes blinkc{ 50%{ opacity:0; } }
+
+  ::selection{ background:var(--neon-pink); color:#000; }
+</style>
+</head>
+<body class="text-gray-200 relative">
+
+<div id="matrix-bg"><canvas id="matrix-canvas"></canvas></div>
+
+<!-- NAV -->
+<header id="header" class="sticky top-0 z-50 px-4 pt-4">
+  <div class="max-w-7xl mx-auto rounded-lg border border-[var(--neon-green)] border-glow-green neon-flicker bg-black/90 backdrop-blur">
+    <div class="flex items-center gap-2 px-4 py-2 border-b border-green-900">
+      <span class="w-3 h-3 rounded-full bg-red-500"></span>
+      <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+      <span class="w-3 h-3 rounded-full bg-green-500"></span>
+      <span class="ml-3 text-xs font-mono2 text-green-400">guest@c137:~$ ./nav_portal.sh</span>
+    </div>
+    <div class="flex flex-wrap items-center justify-between gap-4 px-5 py-3">
+      <a href="#" class="font-graffiti text-2xl md:text-3xl text-[var(--neon-pink)] text-glow-pink tracking-wide">RICK<span class="text-[var(--neon-green)] text-glow-green">://</span>PORTAL</a>
+      <nav class="hidden lg:flex items-center gap-6 font-mono2 text-lg text-green-300">
+        <a href="#" class="hover:text-[var(--neon-blue)] hover:text-glow-blue transition">./home</a>
+        <a href="#dimensions" class="hover:text-[var(--neon-purple)] hover:text-glow-purple transition">./portal</a>
+        <a href="#schematics" class="hover:text-[var(--neon-pink)] hover:text-glow-pink transition">./schematics</a>
+        <a href="#dimensions" class="hover:text-[var(--neon-green)] hover:text-glow-green transition">./multiverse</a>
+        <a href="#footer" class="hover:text-[var(--neon-blue)] hover:text-glow-blue transition">./contact</a>
+      </nav>
+      <button class="font-mono2 text-base px-5 py-2 rounded border border-[var(--neon-purple)] border-glow-purple neon-flicker text-[var(--neon-purple)] text-glow-purple bg-black hover:bg-[var(--neon-purple)] hover:text-black transition">
+        &gt; ENTER_PORTAL
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="relative z-10 h-[820px] flex items-center justify-center overflow-hidden">
+  <!-- Portal -->
+  <div id="portal" class="absolute w-[620px] h-[620px] md:w-[700px] md:h-[700px] flex items-center justify-center">
+    <div id="portal-inner" class="w-[86%] h-[86%] flex items-center justify-center" style="animation: spin-rev 12s linear infinite;">
+      <i class="fa-solid fa-dna text-7xl text-[var(--neon-green)] text-glow-green"></i>
+    </div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto text-center px-6">
+    <p class="font-mono2 text-xl text-[var(--neon-blue)] text-glow-blue mb-4">&gt; initializing_dimension_c137.exe <span class="blink-cursor">█</span></p>
+    <h1 class="drip font-bangers text-6xl md:text-7xl lg:text-8xl leading-[0.95] text-white mb-10" style="text-shadow:3px 3px 0 var(--neon-purple), -2px -2px 0 var(--neon-green), 0 0 30px rgba(255,47,211,0.6);">
+      GET SCHWIFTY WITH<br/>THE MULTIVERSE
+    </h1>
+    <p class="font-mono2 text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto">
+      Salta entre dimensiones infinitas. Sin reglas, sin ciencia aburrida, solo caos interdimensional puro.
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-5">
+      <button class="font-bangers text-2xl tracking-wide px-8 py-3 rounded border-2 border-[var(--neon-green)] border-glow-green neon-flicker text-[var(--neon-green)] text-glow-green bg-black hover:bg-[var(--neon-green)] hover:text-black transition">
+        <i class="fa-solid fa-bolt mr-2"></i>ABRIR PORTAL
+      </button>
+      <button class="font-bangers text-2xl tracking-wide px-8 py-3 rounded border-2 border-[var(--neon-pink)] border-glow-pink neon-flicker text-[var(--neon-pink)] text-glow-pink bg-black hover:bg-[var(--neon-pink)] hover:text-black transition">
+        <i class="fa-solid fa-flask mr-2"></i>VER SCHEMATICS
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<section id="marquee" class="relative z-10 border-y-2 border-[var(--neon-purple)] bg-black py-4 overflow-hidden">
+  <div class="marquee-track font-graffiti text-2xl gap-10 whitespace-nowrap">
+    <span class="text-[var(--neon-green)] text-glow-green px-6">WUBBA LUBBA DUB DUB</span>
+    <span class="text-[var(--neon-pink)] text-glow-pink px-6">★</span>
+    <span class="text-[var(--neon-blue)] text-glow-blue px-6">WARNING: UNSTABLE PORTAL</span>
+    <span class="text-[var(--neon-purple)] text-glow-purple px-6">★</span>
+    <span class="text-[var(--neon-green)] text-glow-green px-6">WHAT IS MY PURPOSE?</span>
+    <span class="text-[var(--neon-pink)] text-glow-pink px-6">★</span>
+    <span class="text-[var(--neon-blue)] text-glow-blue px-6">INTERDIMENSIONAL CABLE ON</span>
+    <span class="text-[var(--neon-purple)] text-glow-purple px-6">★</span>
+    <!-- duplicate for seamless loop -->
+    <span class="text-[var(--neon-green)] text-glow-green px-6">WUBBA LUBBA DUB DUB</span>
+    <span class="text-[var(--neon-pink)] text-glow-pink px-6">★</span>
+    <span class="text-[var(--neon-blue)] text-glow-blue px-6">WARNING: UNSTABLE PORTAL</span>
+    <span class="text-[var(--neon-purple)] text-glow-purple px-6">★</span>
+    <span class="text-[var(--neon-green)] text-glow-green px-6">WHAT IS MY PURPOSE?</span>
+    <span class="text-[var(--neon-pink)] text-glow-pink px-6">★</span>
+    <span class="text-[var(--neon-blue)] text-glow-blue px-6">INTERDIMENSIONAL CABLE ON</span>
+    <span class="text-[var(--neon-purple)] text-glow-purple px-6">★</span>
+  </div>
+</section>
+
+<!-- DIMENSIONS -->
+<section id="dimensions" class="relative z-10 max-w-7xl mx-auto px-6 py-24">
+  <div class="text-center mb-16">
+    <p class="font-mono2 text-lg text-[var(--neon-green)] text-glow-green mb-2">&gt; ls /multiverse/dimensions</p>
+    <h2 class="font-bangers text-5xl md:text-6xl text-white drip" style="text-shadow:2px 2px 0 var(--neon-blue);">DIMENSIONES DISPONIBLES</h2>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div id="card-c137" class="card-sticker transition-transform duration-300 relative rounded-xl p-6 bg-[#0a0a0a] scanlines border border-[var(--neon-green)] border-glow-green neon-flicker">
+      <i class="fa-solid fa-earth-americas text-4xl text-[var(--neon-green)] text-glow-green mb-4"></i>
+      <h3 class="font-graffiti text-2xl text-[var(--neon-green)] text-glow-green mb-2">Dimension C-137</h3>
+      <p class="font-mono2 text-base text-gray-400">Hogar original. Nivel de caos: moderado. Ricks nativos confirmados.</p>
+    </div>
+    <div id="card-cronenberg" class="card-sticker transition-transform duration-300 relative rounded-xl p-6 bg-[#0a0a0a] scanlines border border-[var(--neon-pink)] border-glow-pink neon-flicker">
+      <i class="fa-solid fa-virus text-4xl text-[var(--neon-pink)] text-glow-pink mb-4"></i>
+      <h3 class="font-graffiti text-2xl text-[var(--neon-pink)] text-glow-pink mb-2">Cronenberg World</h3>
+      <p class="font-mono2 text-base text-gray-400">Mutaciones a escala global. Entrada bajo tu propio riesgo genético.</p>
+    </div>
+    <div id="card-citadel" class="card-sticker transition-transform duration-300 relative rounded-xl p-6 bg-[#0a0a0a] scanlines border border-[var(--neon-purple)] border-glow-purple neon-flicker">
+      <i class="fa-solid fa-city text-4xl text-[var(--neon-purple)] text-glow-purple mb-4"></i>
+      <h3 class="font-graffiti text-2xl text-[var(--neon-purple)] text-glow-purple mb-2">Citadel of Ricks</h3>
+      <p class="font-mono2 text-base text-gray-400">Gobierno interdimensional. Burocracia infinita, Ricks infinitos.</p>
+    </div>
+    <div id="card-froopyland" class="card-sticker transition-transform duration-300 relative rounded-xl p-6 bg-[#0a0a0a] scanlines border border-[var(--neon-blue)] border-glow-blue neon-flicker">
+      <i class="fa-solid fa-seedling text-4xl text-[var(--neon-blue)] text-glow-blue mb-4"></i>
+      <h3 class="font-graffiti text-2xl text-[var(--neon-blue)] text-glow-blue mb-2">Froopyland</h3>
+      <p class="font-mono2 text-base text-gray-400">Paraíso pastel fuera de la realidad. No apto para mentes débiles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HIGH-VALUE VARIANTS (Sticker Bomb) -->
+<section id="variants" class="relative z-10 py-24 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 mb-16 text-center">
+    <p class="font-mono2 text-lg text-[var(--neon-pink)] text-glow-pink mb-2">&gt; access_restricted_variants.bin</p>
+    <h2 class="font-bangers text-5xl md:text-7xl text-white drip" style="text-shadow:2px 2px 0 var(--neon-pink);">HIGH-VALUE VARIANTS</h2>
+  </div>
+
+  <div class="sticker-bomb h-[600px] max-w-5xl mx-auto relative">
+    <!-- Sticker 1: Rick C-137 -->
+    <div class="sticker w-64 rotate-[5deg] left-[5%] top-[10%] z-10">
+      <img class="w-full h-64 object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_e31165845e_73c873c02ee17616.png" alt="Rick Sanchez portrait, close-up, cynical expression, detailed sci-fi illustration style, vibrant col" />
+      <div class="p-2 border-t-4 border-black">
+        <p class="font-graffiti text-xl text-black">RICK C-137</p>
+        <p class="font-mono2 text-xs text-gray-600">ORIGINAL_VARIANT_001</p>
+      </div>
+    </div>
+
+    <!-- Sticker 2: Evil Morty -->
+    <div class="sticker w-56 rotate-[-8deg] left-[35%] top-[5%] z-20">
+      <img class="w-full h-56 object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_c50248932f_f4212a2356c0cb26.png" alt="Evil Morty portrait with eye patch, smug expression, dark sci-fi background, digital art style" />
+      <div class="p-2 border-t-4 border-black">
+        <p class="font-graffiti text-xl text-black text-red-600">EVIL MORTY</p>
+        <p class="font-mono2 text-xs text-gray-600">THREAT_LEVEL: OMEGA</p>
+      </div>
+    </div>
+
+    <!-- Sticker 3: Summer -->
+    <div class="sticker w-60 rotate-[12deg] left-[65%] top-[15%] z-10">
+      <img class="w-full h-60 object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_1f8108fa22_228abbd6b1af48ac.png" alt="Summer Smith from Rick and Morty, action pose, sci-fi gear, vibrant cartoon style" />
+      <div class="p-2 border-t-4 border-black">
+        <p class="font-graffiti text-xl text-black">SUMMER-90</p>
+        <p class="font-mono2 text-xs text-gray-600">POST_APOCALYPTIC_SURVIVOR</p>
+      </div>
+    </div>
+
+    <!-- Sticker 4: Pickle Rick -->
+    <div class="sticker w-48 rotate-[-15deg] left-[15%] top-[50%] z-30">
+      <img class="w-full h-48 object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_0cb189f9c3_366c6521206da389.png" alt="Pickle Rick with rat exoskeleton, aggressive pose, high detail illustration" />
+      <div class="p-2 border-t-4 border-black bg-green-100">
+        <p class="font-graffiti text-lg text-black">PICKLE RICK</p>
+        <p class="font-mono2 text-[10px] text-gray-600">SOLYNYA_VARIANT</p>
+      </div>
+    </div>
+
+    <!-- Sticker 5: Space Beth -->
+    <div class="sticker w-64 rotate-[7deg] left-[45%] top-[45%] z-10">
+      <img class="w-full h-64 object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_16db23810b_db79234d3dba1c7e.png" alt="Space Beth portrait, blonde hair, robotic parts, epic space background, high contrast art" />
+      <div class="p-2 border-t-4 border-black">
+        <p class="font-graffiti text-xl text-black">BETH_CLONE?</p>
+        <p class="font-mono2 text-xs text-gray-600">DEFIANT_REBEL_02</p>
+      </div>
+    </div>
+
+    <!-- Sticker 6: Birdperson -->
+    <div class="sticker w-52 rotate-[-4deg] left-[75%] top-[55%] z-20">
+      <img class="w-full h-52 object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_4c401b0af9_4b7e888d651c1948.png" alt="Birdperson portrait, noble expression, feathered armor, sci-fi landscape background" />
+      <div class="p-2 border-t-4 border-black">
+        <p class="font-graffiti text-lg text-black">BIRDPERSON</p>
+        <p class="font-mono2 text-[10px] text-gray-600">IN_COMMUNE_WITH_NATURE</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMINAL / STATS -->
+<section id="schematics" class="relative z-10 max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+  <div class="rounded-xl border border-[var(--neon-green)] border-glow-green bg-black overflow-hidden">
+    <div class="flex items-center gap-2 px-4 py-2 border-b border-green-900 bg-[#050505]">
+      <span class="w-3 h-3 rounded-full bg-red-500"></span>
+      <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+      <span class="w-3 h-3 rounded-full bg-green-500"></span>
+      <span class="ml-3 text-xs font-mono2 text-green-400">portal_gun_diagnostics.log</span>
+    </div>
+    <pre class="font-mono2 text-lg text-green-400 p-6 leading-relaxed overflow-x-auto"><code>&gt; booting portal_gun v3.7.1 ...
+&gt; calibrating neutrino flux capacitor... OK
+&gt; scanning adjacent dimensions......... 97.2%
+&gt; detecting Jerrys nearby............. TRUE
+&gt; portal fluid level.................. LOW
+&gt; recommendation: "just send Morty"
+&gt; status: <span class="text-[var(--neon-pink)] text-glow-pink">READY TO JUMP</span> <span class="blink-cursor">_</span></code></pre>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+    <div class="rounded-xl border border-[var(--neon-purple)] border-glow-purple neon-flicker p-6 bg-[#0a0a0a]">
+      <p class="font-bangers text-4xl text-[var(--neon-purple)] text-glow-purple">C-137</p>
+      <p class="font-mono2 text-sm text-gray-400 mt-2">Dimensiones Mapeadas</p>
+    </div>
+    <div class="rounded-xl border border-[var(--neon-green)] border-glow-green neon-flicker p-6 bg-[#0a0a0a]">
+      <p class="font-bangers text-4xl text-[var(--neon-green)] text-glow-green">97.2%</p>
+      <p class="font-mono2 text-sm text-gray-400 mt-2">Estabilidad del Portal</p>
+    </div>
+    <div class="rounded-xl border border-[var(--neon-pink)] border-glow-pink neon-flicker p-6 bg-[#0a0a0a]">
+      <p class="font-bangers text-4xl text-[var(--neon-pink)] text-glow-pink">∞</p>
+      <p class="font-mono2 text-sm text-gray-400 mt-2">Posibilidades</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer" class="relative z-10 mt-24 border-t-2 border-[var(--neon-pink)]">
+  <div class="max-w-7xl mx-auto px-6 py-16">
+    <div class="text-center mb-12">
+      <p class="font-mono2 text-lg text-[var(--neon-blue)] text-glow-blue mb-2">&gt; cargando_menu_espacial.sh</p>
+      <h2 class="font-bangers text-5xl text-white drip" style="text-shadow:2px 2px 0 var(--neon-purple);">THE GALACTIC CANTINA</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-14">
+      <div id="menu-col-1">
+        <div class="flex justify-between items-baseline border-b border-dashed border-green-900 py-3">
+          <span class="font-graffiti text-xl text-[var(--neon-green)] text-glow-green">Mega Seeds Fizz</span>
+          <span class="font-mono2 text-[var(--neon-green)] text-glow-green">§ 12.00</span>
+        </div>
+        <p class="font-mono2 text-sm text-gray-500 mb-4">Burbujeante, dulce, ligeramente radioactivo.</p>
+        <div class="flex justify-between items-baseline border-b border-dashed border-green-900 py-3">
+          <span class="font-graffiti text-xl text-[var(--neon-pink)] text-glow-pink">Plumbus Punch</span>
+          <span class="font-mono2 text-[var(--neon-pink)] text-glow-pink">§ 15.50</span>
+        </div>
+        <p class="font-mono2 text-sm text-gray-500">Sabor imposible de describir. Todos lo tienen.</p>
+      </div>
+      <div id="menu-col-2">
+        <div class="flex justify-between items-baseline border-b border-dashed border-purple-900 py-3">
+          <span class="font-graffiti text-xl text-[var(--neon-purple)] text-glow-purple">Schwifty Sour</span>
+          <span class="font-mono2 text-[var(--neon-purple)] text-glow-purple">§ 18.00</span>
+        </div>
+        <p class="font-mono2 text-sm text-gray-500 mb-4">Agrio, fuerte, te hace tomar decisiones cuestionables.</p>
+        <div class="flex justify-between items-baseline border-b border-dashed border-purple-900 py-3">
+          <span class="font-graffiti text-xl text-[var(--neon-blue)] text-glow-blue">Blue Flame Blitz</span>
+          <span class="font-mono2 text-[var(--neon-blue)] text-glow-blue">§ 14.00</span>
+        </div>
+        <p class="font-mono2 text-sm text-gray-500">Arde con un frío eléctrico. No preguntes por qué.</p>
+      </div>
+      <div id="menu-col-3">
+        <div class="flex justify-between items-baseline border-b border-dashed border-pink-900 py-3">
+          <span class="font-graffiti text-xl text-[var(--neon-green)] text-glow-green">Portal Fluid Mocktail</span>
+          <span class="font-mono2 text-[var(--neon-green)] text-glow-green">§ 20.00</span>
+        </div>
+        <p class="font-mono2 text-sm text-gray-500 mb-4">Verde brillante. Técnicamente comestible.</p>
+        <div class="flex justify-between items-baseline border-b border-dashed border-pink-900 py-3">
+          <span class="font-graffiti text-xl text-[var(--neon-pink)] text-glow-pink">Gazorpazorp Mule</span>
+          <span class="font-mono2 text-[var(--neon-pink)] text-glow-pink">§ 16.50</span>
+        </div>
+        <p class="font-mono2 text-sm text-gray-500">Picante, intergaláctico, cien por ciento ilegal en C-137.</p>
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center justify-center gap-8 mb-10">
+      <a href="https://www.facebook.com/profile.php?id=61564080877000" target="_blank" class="text-3xl text-[var(--neon-blue)] text-glow-blue hover:scale-110 transition flex flex-col items-center gap-2">
+        <i class="fa-brands fa-facebook"></i>
+        <span class="font-mono2 text-xs">FACEBOOK</span>
+      </a>
+      <a href="https://wa.me/5493624608544" target="_blank" class="text-3xl text-[var(--neon-green)] text-glow-green hover:scale-110 transition flex flex-col items-center gap-2">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="font-mono2 text-xs">WHATSAPP</span>
+      </a>
+      <a href="https://www.instagram.com/angelnomas10?stkn=OGVja281aTR0Ym85" target="_blank" class="text-3xl text-[var(--neon-pink)] text-glow-pink hover:scale-110 transition flex flex-col items-center gap-2">
+        <i class="fa-brands fa-instagram"></i>
+        <span class="font-mono2 text-xs">INSTAGRAM</span>
+      </a>
+    </div>
+    <div class="text-center font-mono2 text-sm text-gray-500 border-t border-gray-900 pt-6">
+      © 2024 RICK://PORTAL — Todas las dimensiones reservadas <span class="blink-cursor">_</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Matrix rain background
+  (function(){
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    function resize(){
+      canvas.width = window.innerWidth;
+      canvas.height = document.documentElement.scrollHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    const chars = '01';
+    const fontSize = 16;
+    let columns = Math.floor(canvas.width / fontSize);
+    let drops = new Array(columns).fill(1);
+    function draw(){
+      ctx.fillStyle = 'rgba(0,0,0,0.08)';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = '#00ff41';
+      ctx.font = fontSize + 'px monospace';
+      for(let i=0;i<drops.length;i++){
+        const text = chars[Math.floor(Math.random()*chars.length)];
+        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 50);
+  })();
+</script>
+</body>
+</html>

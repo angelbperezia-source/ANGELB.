@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ANGEL NOMAS — portal ciberpunk, arte digital y exploración dimensional.">
+    <title>ANGEL NOMAS // FRP-DISEÑO WEB-PROGRAMACION-VICODE-JUEGOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/styles.css">
+</head>
+<body>
+    <div class="matrix-bg" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
+
+    <header class="topbar">
+        <a class="brand" href="#inicio" aria-label="ANGEL NOMAS inicio">
+            <span class="brand-mark">A</span>
+            <span>ANGEL NOMAS</span>
+        </a>
+        <nav class="nav" aria-label="Navegación principal">
+            <a href="#portal">Portal</a>
+            <a href="#datos">Datos</a>
+            <a href="#bio">Perfil</a>
+        </nav>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <main id="inicio">
+        <section class="hero">
+            <div class="hero-copy reveal">
+                <p class="eyebrow">SISTEMA DIMENSIONAL // C-137</p>
+                <h1>Tu código.<br><span>Tu realidad.</span></h1>
+                <p class="hero-text">ANGEL NOMAS conecta arte, tecnología y caos creativo para abrir un portal donde la imaginación ya no tiene límites.</p>
+                <div class="hero-actions">
+                    <button id="launch-btn" class="primary-btn">Abrir portal</button>
+                    <button id="rotate-btn" class="secondary-btn" type="button">Pausar giro</button>
+                    <button id="voice-btn" class="secondary-btn">Activar voz</button>
+                </div>
+                <ul class="status-list" aria-label="Estado del sistema">
+                    <li><span class="status-dot"></span>Frecuencia estable</li>
+                    <li><span class="status-dot"></span>Multiverso activo</li>
+                    <li><span class="status-dot"></span>Sincronización 99,9%</li>
+                </ul>
+            </div>
+
+            <div class="hero-visual reveal" aria-label="Portal dimensional interactivo">
+                <div class="portal-orbit orbit-one"></div>
+                <div class="portal-orbit orbit-two"></div>
+                <div class="portal-container" id="portal" role="img" aria-label="Portal psicodélico giratorio">
+                    <img class="portal-logo" src="T1-transparent.png" alt="Logo T1">
+                    <div class="portal-ring ring-a"></div>
+                    <div class="portal-ring ring-b"></div>
+                    <div class="portal-ring ring-c"></div>
+                    <div class="portal-glow"></div>
+                </div>
+                <div class="scanline"></div>
+            </div>
+        </section>
+
+        <section class="terminal-panel reveal" id="datos">
+            <div class="panel-header">
+                <div class="terminal-dots"><span></span><span></span><span></span></div>
+                <span>terminal.dim</span>
+            </div>
+            <p id="terminal-text">// Inicializando coordenadas dimensionales...</p>
+            <div class="terminal-meter">
+                <span id="meter-fill"></span>
+            </div>
+        </section>
+
+        <section class="features reveal" id="bio">
+            <article class="feature-card">
+                <span class="feature-index">01</span>
+                <h2>Arte digital</h2>
+                <p>Graffiti, neón y composición visual pensada para transformar la pantalla en un paisaje vivo.</p>
+            </article>
+            <article class="feature-card accent">
+                <span class="feature-index">02</span>
+                <h2>Creatividad</h2>
+                <p>Ideas que atraviesan límites y se convierten en experiencias únicas, rápidas y memorables.</p>
+            </article>
+            <article class="feature-card">
+                <span class="feature-index">03</span>
+                <h2>Experiencia</h2>
+                <p>Interacciones suaves, movimiento constante y una identidad visual que mantiene el foco.</p>
+            </article>
+        </section>
+
+        <section class="projects reveal" id="proyectos" aria-labelledby="projects-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">MATERIALES EN CREACIÓN</p>
+                    <h2 id="projects-title">Laboratorio de proyectos</h2>
+                </div>
+                <p class="section-copy">Esta galaxia se llena poco a poco con fotografías, capturas, diseños y locuras propias.</p>
+            </div>
+
+            <div class="projects-grid">
+                <article class="project-card project-photo project-feature">
+                    <div class="project-image" role="img" aria-label="Proyecto visual futuro: una imagen aún por agregar">
+                        <span class="project-badge">Proyecto 01</span>
+                        <div class="project-placeholder">
+                            <span>Foto del proyecto</span>
+                            <strong>próximamente</strong>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <p class="project-type">Fotografía</p>
+                        <h3>Proyecto sin nombre</h3>
+                        <p>Espacio disponible para una captura, una edición o una escena que todavía necesita nacer.</p>
+                    </div>
+                </article>
+
+                <article class="project-card project-photo">
+                    <div class="project-image" role="img" aria-label="Proyecto visual futuro: una imagen aún por agregar">
+                        <span class="project-badge">Proyecto 02</span>
+                        <div class="project-placeholder">
+                            <span>Diseño</span>
+                            <strong>próximamente</strong>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <p class="project-type">Diseño</p>
+                        <h3>Diseño en construcción</h3>
+                        <p>Tu siguiente pieza puede ocupar este rincón del universo.</p>
+                    </div>
+                </article>
+
+                <article class="project-card project-photo">
+                    <div class="project-image" role="img" aria-label="Proyecto visual futuro: una imagen aún por agregar">
+                        <span class="project-badge">Proyecto 03</span>
+                        <div class="project-placeholder">
+                            <span>Captura</span>
+                            <strong>próximamente</strong>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <p class="project-type">Captura</p>
+                        <h3>Momento por descubrir</h3>
+                        <p>Un instante, una escena o un detalle que pronto podrá ser recordado.</p>
+                    </div>
+                </article>
+
+                <article class="project-card project-empty" aria-label="Espacio libre para un nuevo proyecto">
+                    <div class="empty-project">
+                        <span class="empty-plus">+</span>
+                        <h3>Nuevo proyecto</h3>
+                        <p>El espacio está listo para tu próxima locura.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="social-links" aria-label="Redes sociales de ANGEL NOMAS">
+            <a class="social-link facebook" href="https://www.facebook.com/profile.php?id=61564080877000" target="_blank" rel="noopener noreferrer" aria-label="Facebook de ANGEL NOMAS">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 22v-8h2.7l.4-3.1h-3.1V7.2c0-.9.3-1.6 1.7-1.6H17V2.8c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2v2.3H8v3.1h2.4v8h3.1Z"/></svg>
+            </a>
+            <a class="social-link whatsapp" href="https://wa.me/5493624608544" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp de ANGEL NOMAS">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12.1A8.1 8.1 0 0 1 12 20c-1.4 0-2.7-.3-3.9-.9L4 20l1-4.1A8 8 0 0 1 4 12.1a8.1 8.1 0 1 1 16 0Zm-8.1-5.2c-.3 0-.7.1-1.1.4-.4.3-.9.8-.9 1.6 0 .8.5 1.4.7 1.6l.3.3c.1.1.2.2.1.4-.5 1.2-1.2 2.2-2 3.2-.2.2-.4.5-.4.8 0 .3.1.6.4.9.4.5 1.1.8 2 .8 1.1 0 2-.7 2.6-1.2.7-.6 1.2-1.4 1.5-2.2.1-.4.1-.8-.1-1.1l-.3-.3c-.3-.2-.6-.3-.9-.2-.2.1-.5.3-.8.5-.2.1-.4.1-.5-.2l-.4-.9c-.1-.2-.3-.4-.5-.4-.2-.1-.5 0-.7.1l-.7.5c-.3.3-.6.6-.8 1-.2.3-.2.8-.1 1.3.3 1.2 1 2.3 2 3.1 1.1.9 2.4 1.5 3.7 1.7.4.1.8.1 1.2-.1.3-.2.6-.4.8-.7.2-.4.3-.8.1-1.1l-.5-.9c-.2-.4-.6-.6-1-.5l-.6.2c-.2.1-.4.1-.6-.1l-.9-.8c-.3-.2-.4-.5-.3-.8.1-.3.3-.6.5-.8l.3-.3c.3-.3.4-.7.3-1.1-.1-.5-.6-.9-1.1-1.1l-.4-.1Z"/></svg>
+            </a>
+            <a class="social-link instagram" href="https://www.instagram.com/angelnomas10?stkn=OGVja281aTR0Ym85" target="_blank" rel="noopener noreferrer" aria-label="Instagram de ANGEL NOMAS">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5Zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5Zm6-3.2a1.3 1.3 0 1 1-1.3 1.3 1.3 1.3 0 0 1 1.3-1.3Z"/></svg>
+            </a>
+        </div>
+        <p>ANGEL NOMAS // portal dimensional</p>
+        <p>Construido con código, energía y caos creativo.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
